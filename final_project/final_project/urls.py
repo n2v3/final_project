@@ -15,8 +15,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+import job_hub.viewsets as job_hub_viewsets
+
+
+router = DefaultRouter()
+router.register(r'candidates', job_hub_viewsets.CandidateViewSet)
+router.register(r'employees', job_hub_viewsets.EmployeeViewSet)
+router.register(r'employers', job_hub_viewsets.EmployerViewSet)
+router.register(r'company-profiles', job_hub_viewsets.CompanyProfileViewSet)
+router.register(r'vacancies', job_hub_viewsets.VacancyViewSet)
+router.register(r'categories', job_hub_viewsets.CategoryViewSet)
+router.register(r'comments', job_hub_viewsets.CommentViewSet)
+router.register(r'locations', job_hub_viewsets.LocationViewSet)
+router.register(r'rates', job_hub_viewsets.RateViewSet)
+router.register(r'salaries', job_hub_viewsets.SalaryViewSet)
+router.register(r'skills', job_hub_viewsets.SkillViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("api/", include(router.urls))
 ]
