@@ -14,6 +14,9 @@ class Vacancy(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     skills = models.ManyToManyField('Skill')
 
+    def __str__(self):
+        return f"{self.job_title}"
+
 
     class Meta:
         verbose_name_plural = "Vacancies"

@@ -9,3 +9,17 @@ from .employer import Employer
 from .employee import Employee
 from .candidate import Candidate
 from .location import Location
+
+__all__ = [
+    'Rate',
+    'Skill',
+    'Salary',
+    'Comment',
+    'Vacancy',
+    'Category',
+    'CompanyProfile',
+    'Employer',
+    'Employee',
+    'Candidate',
+    'Location'
+]

@@ -36,8 +36,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('comment_text', 'timestamp', 'employer', 'employee', 'candidate', 'vacancy')
-    search_fields = ('comment_text', 'timestamp', 'employer__employer_first_name', 'employee__employee_first_name', 'candidate__candidate_first_name', 'vacancy__job_title')
+    list_display = ('comment_text', 'timestamp', 'vacancy')
+    search_fields = ('comment_text', 'timestamp', 'vacancy__job_title')
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
@@ -46,13 +46,13 @@ class LocationAdmin(admin.ModelAdmin):
 
 @admin.register(Rate)
 class RateAdmin(admin.ModelAdmin):
-    list_display = ('rating_value', 'comment', 'timestamp', 'employer', 'employee', 'candidate', 'company_profile')
-    search_fields = ('rating_value', 'comment', 'timestamp', 'employer__employer_first_name', 'employee__employee_first_name', 'candidate__candidate_first_name', 'company_profile__company_name')
+    list_display = ('rating_value', 'comment', 'timestamp', 'vacancy', 'company_profile')
+    search_fields = ('rating_value', 'comment', 'timestamp', 'vacancy__job_title', 'company_profile__company_name')
 
 @admin.register(Salary)
 class SalaryAdmin(admin.ModelAdmin):
-    list_display = ('salary_range_start', 'salary_range_end')
-    search_fields = ('salary_range_start', 'salary_range_end')
+    list_display = ('salary_range', 'currency')
+    search_fields = ('salary_range', 'currency')
 
 @admin.register(Skill)
 class SkillAdmin(admin.ModelAdmin):

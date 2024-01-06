@@ -1,8 +1,10 @@
 from django.db import models
-from .employer import Employer
+
+from .vacancy import Vacancy
+# from .employer import Employer
 from .company_profile import CompanyProfile
-from .employee import Employee
-from .candidate import Candidate
+# from .employee import Employee
+# from .candidate import Candidate
 
 
 
@@ -12,7 +14,8 @@ class Rate(models.Model):
     rating_value = models.IntegerField(choices=RATING_CHOICES)
     comment = models.TextField(blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    employer = models.ForeignKey(Employer, on_delete=models.CASCADE, null=True)
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
-    candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE, null=True)
+    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, default='')
+    # employer = models.ForeignKey(Employer, on_delete=models.CASCADE, null=True)
+    # employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
+    # candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE, null=True)
     company_profile = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE, null=True)
