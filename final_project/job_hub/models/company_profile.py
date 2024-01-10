@@ -9,8 +9,8 @@ class CompanyProfile(models.Model):
         (4, 'Above 1000'),
     ]
 
-    company_name = models.CharField(max_length=255)
-    website = models.URLField()
+    company_name = models.CharField(max_length=255, unique=True)
+    website = models.URLField(unique=True)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     amount_of_employees = models.PositiveIntegerField(choices=EMPLOYEES_CHOICES)
 

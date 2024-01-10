@@ -17,9 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-import job_hub.viewsets as job_hub_viewsets
 
-from job_hub.views import UserRegistrationView, UserLoginView
+import job_hub.viewsets as job_hub_viewsets
 
 router = DefaultRouter()
 router.register(r'candidates', job_hub_viewsets.CandidateViewSet)
@@ -38,6 +37,4 @@ router.register(r'skills', job_hub_viewsets.SkillViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", include(router.urls)),
-    path('register/', UserRegistrationView.as_view(), name='register'),
-    path('login/', UserLoginView.as_view(), name='login'),
 ]
