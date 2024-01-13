@@ -18,27 +18,27 @@ class PrivateEndpointMixin:
 
 
 class CandidateViewSet(PrivateEndpointMixin, viewsets.ModelViewSet):
-    queryset = Candidate.objects.all()
+    queryset = Candidate.objects.prefetch_related('skills').all()
     serializer_class = CandidateSerializer
 
 
 class EmployeeViewSet(PrivateEndpointMixin, viewsets.ModelViewSet):
-    queryset = Employee.objects.all()
+    queryset = Employee.objects.select_related('company_name').prefetch_related('skills').all()
     serializer_class = EmployeeSerializer
 
 
 class EmployerViewSet(PrivateEndpointMixin, viewsets.ModelViewSet):
-    queryset = Employer.objects.all()
+    queryset = Employer.objects.select_related('company_name').prefetch_related('skills').all()
     serializer_class = EmployerSerializer
 
 
 class CompanyProfileViewSet(PrivateEndpointMixin, viewsets.ModelViewSet):
-    queryset = CompanyProfile.objects.all()
+    queryset = CompanyProfile.objects.select_related('location').all()
     serializer_class = CompanyProfileSerializer
 
 
 class VacancyViewSet(PrivateEndpointMixin, viewsets.ModelViewSet):
-    queryset = Vacancy.objects.all()
+    queryset = Vacancy.objects.select_related('category', 'salary', 'company_profile').prefetch_related('associated_locations', 'skills').all()
     serializer_class = VacancySerializer
 
 
@@ -48,7 +48,7 @@ class CategoryViewSet(PrivateEndpointMixin, viewsets.ModelViewSet):
 
 
 class CommentViewSet(PrivateEndpointMixin, viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.select_related('vacancy').all()
     serializer_class = CommentSerializer
 
 
@@ -58,7 +58,7 @@ class LocationViewSet(PrivateEndpointMixin, viewsets.ModelViewSet):
 
 
 class RateViewSet(PrivateEndpointMixin, viewsets.ModelViewSet):
-    queryset = Rate.objects.all()
+    queryset = Rate.objects.select_related('vacancy', 'company_profile').all()
     serializer_class = RateSerializer
 
 

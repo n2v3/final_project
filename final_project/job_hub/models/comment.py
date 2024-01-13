@@ -11,4 +11,4 @@ class Comment(models.Model):
     # employer = models.ForeignKey(Employer, on_delete=models.CASCADE, null=True)
     # employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
     # candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE, null=True)
-    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, null=True)
+    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, null=True, related_name='comments')

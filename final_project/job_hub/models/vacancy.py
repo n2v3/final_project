@@ -8,10 +8,10 @@ class Vacancy(models.Model):
     job_title = models.CharField(max_length=255)
     description = models.TextField()
     requirements = models.TextField()
-    salary = models.ForeignKey('Salary', on_delete=models.CASCADE)
-    company_profile = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE)
+    salary = models.ForeignKey('Salary', on_delete=models.CASCADE, related_name='vacancies')
+    company_profile = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE, related_name='vacancies')
     associated_locations = models.ManyToManyField(Location)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='vacancies')
     skills = models.ManyToManyField('Skill')
 
     def __str__(self):
