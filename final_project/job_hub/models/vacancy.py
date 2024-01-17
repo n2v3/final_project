@@ -20,6 +20,7 @@ class Vacancy(models.Model):
 
     class Meta:
         verbose_name_plural = "Vacancies"
+        ordering = ('-salary',)
 
     def get_skills_list(self):
         return self.skills.all()

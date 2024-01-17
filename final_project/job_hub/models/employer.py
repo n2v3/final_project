@@ -1,5 +1,6 @@
 from django.db import models
 from .company_profile import CompanyProfile
+from .skill import Skill
 
 
 class Employer(models.Model):
@@ -9,6 +10,7 @@ class Employer(models.Model):
     position = models.CharField(max_length=255)
     company_name = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE, related_name='employers', null=True,
                                      blank=True)
+    skills = models.ManyToManyField(Skill)
 
     def __str__(self):
         return f"{self.employer_first_name} {self.employer_last_name}"
