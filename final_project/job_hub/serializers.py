@@ -10,10 +10,24 @@ class SkillSerializer(ModelSerializer):
         model = Skill
         fields = '__all__'
 
+class LocationSerializer(ModelSerializer):
+    class Meta:
+        model = Location
+        fields = '__all__'
+
 class CompanyProfileSerializer(ModelSerializer):
     class Meta:
         model = CompanyProfile
-        fields = '__all__'
+        fields = ['id', 'company_name', 'website', 'location', 'amount_of_employees']
+
+class CompanyProfileViewSerializer(CompanyProfileSerializer):
+    location = LocationSerializer()
+    # Add a field to show the amount of employees
+    amount_of_employees = serializers.CharField(source='get_amount_of_employees_display', read_only=True)
+
+    def get_amount_of_employees_display(self, obj):
+        # Get the display value for the amount of employees based on the model choices
+        return obj.get_amount_of_employees_display()
 
 
 class EmployerSerializer(ModelSerializer):
@@ -41,11 +55,6 @@ class CandidateSerializer(ModelSerializer):
 
 class CandidateViewSerializer(CandidateSerializer):
     skills = SkillSerializer(many=True)
-
-class LocationSerializer(ModelSerializer):
-    class Meta:
-        model = Location
-        fields = '__all__'
 
 
 class SalarySerializer(ModelSerializer):

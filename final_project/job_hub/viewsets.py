@@ -6,9 +6,9 @@ from .serializers import (
     CandidateSerializer, EmployeeSerializer, EmployerSerializer,
     CompanyProfileSerializer, VacancySerializer, CategorySerializer,
     CommentSerializer, LocationSerializer, RateSerializer,
-    SalarySerializer, SkillSerializer, EmployerViewSerializer,EmployeeViewSerializer, CandidateViewSerializer, VacancyViewSerializer
+    SalarySerializer, SkillSerializer, EmployerViewSerializer,EmployeeViewSerializer, CandidateViewSerializer, VacancyViewSerializer, CompanyProfileViewSerializer
 )
-from .permissions import  MyCustomPermission
+from .permissions import MyCustomPermission, ReadOnlyPermission
 from .authentication import MyCustomAuthentication
 
 
@@ -64,6 +64,12 @@ class CompanyProfileViewSet(viewsets.ModelViewSet):
     serializer_class = CompanyProfileSerializer
     authentication_classes = (MyCustomAuthentication,)
 
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return CompanyProfileViewSerializer
+        else:
+            return CompanyProfileSerializer
+
 
 class VacancyViewSet(viewsets.ModelViewSet):
     queryset = Vacancy.objects.select_related('category', 'salary', 'company_profile').prefetch_related('associated_locations', 'skills').all()
@@ -89,7 +95,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 class LocationViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Location.objects.all()
     serializer_class = LocationSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = [ReadOnlyPermission]
 
 class RateViewSet(viewsets.ModelViewSet):
     queryset = Rate.objects.select_related('vacancy', 'company_profile').all()
@@ -99,6 +105,7 @@ class RateViewSet(viewsets.ModelViewSet):
 class SalaryViewSet(viewsets.ModelViewSet):
     queryset = Salary.objects.all()
     serializer_class = SalarySerializer
+    permission_classes = [ReadOnlyPermission]
 
 
 class SkillViewSet(viewsets.ModelViewSet):

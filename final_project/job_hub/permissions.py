@@ -10,3 +10,9 @@ class MyCustomPermission(BasePermission):
         else:
             # Non-staff users can only perform GET
             return request.method == 'GET'
+
+class ReadOnlyPermission(BasePermission):
+    def has_permission(self, request, view):
+        # Allow GET requests for anyone
+        return request.method == 'GET'
+

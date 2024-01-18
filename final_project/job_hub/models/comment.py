@@ -2,7 +2,7 @@ from django.db import models
 from .employer import Employer
 from .employee import Employee
 from .candidate import Candidate
-from  .vacancy import Vacancy
+from .vacancy import Vacancy
 
 
 class Comment(models.Model):
