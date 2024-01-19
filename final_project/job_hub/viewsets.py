@@ -6,7 +6,8 @@ from .serializers import (
     CandidateSerializer, EmployeeSerializer, EmployerSerializer,
     CompanyProfileSerializer, VacancySerializer, CategorySerializer,
     CommentSerializer, LocationSerializer, RateSerializer,
-    SalarySerializer, SkillSerializer, EmployerViewSerializer,EmployeeViewSerializer, CandidateViewSerializer, VacancyViewSerializer, CompanyProfileViewSerializer
+    SalarySerializer, SkillSerializer, EmployerViewSerializer, EmployeeViewSerializer, CandidateViewSerializer,
+    VacancyViewSerializer, CompanyProfileViewSerializer, CommentViewSerializer
 )
 from .permissions import MyCustomPermission, ReadOnlyPermission
 from .authentication import MyCustomAuthentication
@@ -88,9 +89,24 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.select_related('vacancy').all()
+    # queryset = Comment.objects.select_related('vacancy').all()
     serializer_class = CommentSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
+    lookup_field = 'id'
+
+    # Making request like this http://127.0.0.1:8000/api/comments/?vacancy=5 , we can see the comments regarding specific vacancy
+    def get_queryset(self):
+        vacancy_id = self.request.query_params.get('vacancy')
+        if vacancy_id:
+            return Comment.objects.filter(vacancy=vacancy_id)
+        else:
+            return Comment.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return CommentViewSerializer
+        else:
+            return CommentSerializer
 
 class LocationViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Location.objects.all()
@@ -98,8 +114,16 @@ class LocationViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [ReadOnlyPermission]
 
 class RateViewSet(viewsets.ModelViewSet):
-    queryset = Rate.objects.select_related('vacancy', 'company_profile').all()
+    # queryset = Rate.objects.select_related('vacancy', 'company_profile').all()
     serializer_class = RateSerializer
+    lookup_field = 'id'
+
+    def get_queryset(self):
+        vacancy_id = self.request.query_params.get('vacancy')
+        if vacancy_id:
+            return Rate.objects.filter(vacancy=vacancy_id)
+        else:
+            return Rate.objects.all()
 
 
 class SalaryViewSet(viewsets.ModelViewSet):

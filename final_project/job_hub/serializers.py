@@ -82,11 +82,14 @@ class VacancyViewSerializer(VacancySerializer):
 
 
 class CommentSerializer(ModelSerializer):
-    vacancy = PrimaryKeyRelatedField(queryset=Vacancy.objects.all())
+    # vacancy = PrimaryKeyRelatedField(queryset=Vacancy.objects.all())
     timestamp = DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
     class Meta:
         model = Comment
         fields = ('vacancy','comment_text','timestamp')
+
+class CommentViewSerializer(CommentSerializer):
+    vacancy = VacancyViewSerializer(read_only=True)
 
 
 class RateSerializer(ModelSerializer):
