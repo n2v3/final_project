@@ -1,6 +1,9 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, permissions
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.filters import SearchFilter, OrderingFilter
+from .filters import VacancyFilter
 from .models import Candidate, Employee, Employer, CompanyProfile, Vacancy, Category, Comment, Location, Rate, Salary, Skill
 from .serializers import (
     CandidateSerializer, EmployeeSerializer, EmployerSerializer,
@@ -76,6 +79,10 @@ class VacancyViewSet(viewsets.ModelViewSet):
     queryset = Vacancy.objects.select_related('category', 'salary', 'company_profile').prefetch_related('associated_locations', 'skills').all()
     # permission_classes = (IsAuthenticatedOrReadOnly, )
     # authentication_classes = (TokenAuthentication,)
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_class = VacancyFilter
+    search_fields = ['description', 'requirements']
+    ordering_fields = ('salary',)
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
@@ -130,6 +137,8 @@ class SalaryViewSet(viewsets.ModelViewSet):
     queryset = Salary.objects.all()
     serializer_class = SalarySerializer
     permission_classes = [ReadOnlyPermission]
+    filter_backends = (DjangoFilterBackend, OrderingFilter)
+    ordering_fields = ('salary_range',)
 
 
 class SkillViewSet(viewsets.ModelViewSet):

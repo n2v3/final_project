@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # third-party apps
     'rest_framework',
     'rest_framework.authtoken',
+    'django_filters',
     # my apps
     'job_hub',
 ]
