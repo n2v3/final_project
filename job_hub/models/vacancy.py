@@ -13,6 +13,7 @@ class Vacancy(models.Model):
     associated_locations = models.ManyToManyField(Location)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='vacancies')
     skills = models.ManyToManyField('Skill')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.job_title}"

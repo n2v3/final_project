@@ -1,8 +1,10 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.response import Response
+
 from .filters import VacancyFilter
 from .models import Candidate, Employee, Employer, CompanyProfile, Vacancy, Category, Comment, Location, Rate, Salary, Skill
 from .serializers import (
@@ -14,6 +16,7 @@ from .serializers import (
 )
 from .permissions import MyCustomPermission, ReadOnlyPermission
 from .authentication import MyCustomAuthentication
+from .tasks import vacancy_created_task
 
 
 class CustomPermission(permissions.BasePermission):
@@ -89,6 +92,17 @@ class VacancyViewSet(viewsets.ModelViewSet):
             return VacancyViewSerializer
         else:
             return VacancySerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+
+        # Execute Celery task
+        vacancy_created_task.delay(serializer.instance.job_title)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()

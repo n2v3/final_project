@@ -1,9 +1,10 @@
 from django.contrib.auth.models import User
+from django.db import transaction
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, DateTimeField, SerializerMethodField
-from .models import Candidate, Employee, Employer, CompanyProfile, Vacancy, Category, Comment, Location, Rate, Salary, Skill
-
+from .models import Candidate, Employee, Employer, CompanyProfile, Vacancy, Category, Comment, Location, Rate, Salary, \
+    Skill
 
 class SkillSerializer(ModelSerializer):
     class Meta:
@@ -79,7 +80,6 @@ class VacancyViewSerializer(VacancySerializer):
     company_profile = CompanyProfileSerializer()
     category = CategorySerializer()
     salary = SalarySerializer()
-
 
 class CommentSerializer(ModelSerializer):
     # vacancy = PrimaryKeyRelatedField(queryset=Vacancy.objects.all())

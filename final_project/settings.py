@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+
+from celery.schedules import crontab
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -28,7 +30,11 @@ SECRET_KEY = 'django-insecure-70pbisstu5wi%noq=9re*pvwqmz*up)e_f-63t2dvbo4fbep!w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    '3f39-91-214-85-107.ngrok-free.app'
+]
 
 
 # Application definition
@@ -145,7 +151,18 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 3,
+    'PAGE_SIZE': 10,
 }
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+CELERY_BEAT_SCHEDULE = {
+    # 'every_second_task': {
+    #     'task':'job_hub.tasks.every_second_task',
+    #     'schedule': 1.0
+    # },
+    'everyday_at_10_am': {
+        'task': 'job_hub.tasks.everyday_calculation_of_added_vacancies',
+        'schedule': crontab(hour=10, minute=0),
+    }
+}

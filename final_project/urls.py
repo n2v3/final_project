@@ -22,6 +22,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 import job_hub.viewsets as job_hub_viewsets
 
 import job_hub.views as view
+from telegram.views import accept_telegram_message
 
 router = DefaultRouter()
 router.register(r'candidates', job_hub_viewsets.CandidateViewSet)
@@ -40,6 +41,7 @@ router.register(r'skills', job_hub_viewsets.SkillViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', obtain_auth_token),
-    path("api/", include(router.urls)),
-    path("api/register/", view.registration_view),
+    path('api/', include(router.urls)),
+    path('api/register/', view.registration_view),
+    path('telegram/', accept_telegram_message)
 ]
