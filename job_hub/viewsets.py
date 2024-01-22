@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.response import Response
+from final_project.celery import app
 
 from .filters import VacancyFilter
 from .models import Candidate, Employee, Employer, CompanyProfile, Vacancy, Category, Comment, Location, Rate, Salary, Skill
@@ -16,7 +17,7 @@ from .serializers import (
 )
 from .permissions import MyCustomPermission, ReadOnlyPermission
 from .authentication import MyCustomAuthentication
-from .tasks import vacancy_created_task
+from .tasks import vacancy_created_task, update_google_sheet
 
 
 class CustomPermission(permissions.BasePermission):
@@ -99,7 +100,27 @@ class VacancyViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
 
         # Execute Celery task
+        # vacancy_created_task.delay(serializer.instance.job_title)
+        # Execute Celery task with the entire serialized data
         vacancy_created_task.delay(serializer.instance.job_title)
+
+        # Serialize the Salary field manually
+        salary_data = {
+            'id': serializer.instance.salary.id,
+            'salary_range': serializer.instance.salary.salary_range,
+        }
+
+        # Trigger the Celery task with all data
+        # update_google_sheet.delay(
+        #     serializer.instance.id,
+        #     serializer.instance.job_title,
+        #     serializer.instance.description,
+        #     serializer.instance.requirements,
+        #     salary_data['salary_range'],  # Access the 'salary_range' key
+        #     serializer.instance.created_at,
+        #     # Add other fields as needed
+        # )
+        update_google_sheet.delay(serializer.instance.id)
 
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

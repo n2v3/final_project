@@ -164,5 +164,9 @@ CELERY_BEAT_SCHEDULE = {
     'everyday_at_10_am': {
         'task': 'job_hub.tasks.everyday_calculation_of_added_vacancies',
         'schedule': crontab(hour=10, minute=0),
-    }
+    },
+    # 'write_to_sheets': {
+    #     'task': 'job_hub.tasks.every_minute_task',
+    #     'schedule': 60.0,
+    # }
 }
