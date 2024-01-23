@@ -92,10 +92,13 @@ class CommentViewSerializer(CommentSerializer):
     vacancy = VacancyViewSerializer(read_only=True)
 
 
-class RateSerializer(ModelSerializer):
+class RateSerializer(serializers.ModelSerializer):
+    company_profile = serializers.CharField(source='company_profile.company_name', read_only=True)
+
     class Meta:
         model = Rate
-        fields = '__all__'
+        fields = ['id', 'rating_value', 'comment', 'timestamp', 'vacancy', 'company_profile']
+
 
 
 class RegistrationSerializer(serializers.ModelSerializer):

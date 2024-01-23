@@ -12,4 +12,10 @@ class Rate(models.Model):
     comment = models.TextField(blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, default='', related_name='rate')
-    company_profile = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE, null=True, related_name='rate')
+
+    @property
+    def company_profile(self):
+        return self.vacancy.company_profile
+
+    def __str__(self):
+        return f'{self.rating_value}'
