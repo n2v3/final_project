@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import validate_comma_separated_integer_list
 
 
 class Salary(models.Model):
@@ -13,7 +14,7 @@ class Salary(models.Model):
         ('ABOVE 5000', 'Above 5000'),
     ]
 
-    salary_range = models.CharField(max_length=20, choices=RANGE_CHOICES, default='Under 500')
+    salary_range = models.CharField(max_length=20, choices=RANGE_CHOICES, default='Under 500', validators=[validate_comma_separated_integer_list])
 
     CURRENCY_CHOICES = [
         ('USD', 'US Dollar'),
@@ -21,7 +22,7 @@ class Salary(models.Model):
         ('GBP', 'British Pound'),
     ]
 
-    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, default='USD')
+    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, default='USD',validators=[validate_comma_separated_integer_list])
 
     def __str__(self):
         return f"{self.salary_range} {self.currency}"

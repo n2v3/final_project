@@ -1,4 +1,5 @@
 from django.db import models
+from rest_framework.exceptions import ValidationError
 
 from .vacancy import Vacancy
 from .company_profile import CompanyProfile
@@ -16,6 +17,12 @@ class Rate(models.Model):
     @property
     def company_profile(self):
         return self.vacancy.company_profile
+
+    def save(self, *args, **kwargs):
+        # Ensure the rating value is within the allowed choices
+        if self.rating_value not in dict(self.RATING_CHOICES).keys():
+            raise ValidationError("Invalid rating value")
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.rating_value}'
