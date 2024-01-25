@@ -12,12 +12,7 @@ class TestModelTest(TestCase):
             location=self.location)
         self.salary = Salary.objects.create(salary_range='Test salary range')
         self.skill = Skill.objects.create(skill_name='Test skill')
-
-    def test_vacancy_creation(self):
-        # Check the initial count of Vacancy instances
-        initial_count = Vacancy.objects.count()
-        # Test creating a Vacancy
-        vacancy = Vacancy.objects.create(
+        self.vacancy = Vacancy.objects.create(
             job_title='Test Job Title',
             description='Test description',
             requirements='Test requirements',
@@ -26,29 +21,35 @@ class TestModelTest(TestCase):
             category=self.category,
         )
 
+
+    def test_vacancy_creation(self):
+
         # Add the Location to the many-to-many relationship using add()
-        vacancy.associated_locations.add(self.location)
+        self.vacancy.associated_locations.add(self.location)
 
         # Add the Skill to the many-to-many relationship using set()
-        vacancy.skills.set([self.skill])
+        self.vacancy.skills.set([self.skill])
 
         # Check if the object was created successfully
-        self.assertIsInstance(vacancy, Vacancy)
+        self.assertIsInstance(self.vacancy, Vacancy)
 
         # Additional assertions
-        self.assertEqual(vacancy.job_title, 'Test Job Title')
-        self.assertEqual(vacancy.description, 'Test description')
-        self.assertEqual(vacancy.requirements, 'Test requirements')
-        self.assertEqual(vacancy.salary, self.salary)
-        self.assertEqual(vacancy.company_profile, self.company_profile)
-        self.assertEqual(list(vacancy.associated_locations.all()), [self.location])
-        self.assertEqual(vacancy.category, self.category)
-        self.assertEqual(list(vacancy.skills.all()), [self.skill])
-
-        # Check if the count of Vacancy instances increased by one
-        self.assertEqual(Vacancy.objects.count(), initial_count + 1)
+        self.assertEqual(self.vacancy.job_title, 'Test Job Title')
+        self.assertEqual(self.vacancy.description, 'Test description')
+        self.assertEqual(self.vacancy.requirements, 'Test requirements')
+        self.assertEqual(self.vacancy.salary, self.salary)
+        self.assertEqual(self.vacancy.company_profile, self.company_profile)
+        self.assertEqual(list(self.vacancy.associated_locations.all()), [self.location])
+        self.assertEqual(self.vacancy.category, self.category)
+        self.assertEqual(list(self.vacancy.skills.all()), [self.skill])
 
         # Ensure that the Vacancy instance is associated with the correct objects
-        self.assertEqual(list(self.location.vacancy_set.all()), [vacancy])
-        self.assertIn(self.skill, vacancy.skills.all())
-        self.assertListEqual(list(vacancy.skills.all()), [self.skill])
+        self.assertEqual(list(self.location.vacancy_set.all()), [self.vacancy])
+        self.assertIn(self.skill, self.vacancy.skills.all())
+        self.assertListEqual(list(self.vacancy.skills.all()), [self.skill])
+
+    def test_get_skills_list(self):
+        self.vacancy.skills.add(self.skill)  # Add the skill to the vacancy
+        skills_list = self.vacancy.get_skills_list()
+        self.assertEqual(len(skills_list), 1)
+        self.assertEqual(skills_list[0].skill_name, 'Test skill')
