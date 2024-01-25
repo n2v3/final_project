@@ -93,7 +93,8 @@ class CommentViewSerializer(CommentSerializer):
 
 
 class RateSerializer(serializers.ModelSerializer):
-    company_profile = serializers.CharField(source='company_profile.company_name', read_only=True)
+    # company_profile = serializers.CharField(source='company_profile.company_name', read_only=True)
+    company_profile = CompanyProfileSerializer(read_only=True)
 
     class Meta:
         model = Rate
