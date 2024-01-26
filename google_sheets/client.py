@@ -8,6 +8,7 @@ CREDENTIALS_PATH = os.path.join(
     "credentials.json"
 )
 
+
 class GoogleSheetsCredentials:
     gc = None
 

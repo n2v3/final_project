@@ -62,7 +62,9 @@ class CandidateViewSet(viewsets.ModelViewSet):
 
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = (
-        Employee.objects.select_related("company_name").prefetch_related("skills").all()
+        Employee.objects.
+        select_related("company_name").
+        prefetch_related("skills").all()
     )
 
     def get_serializer_class(self):
