@@ -9,7 +9,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      USE_SQLITE: True
+#      USE_SQLITE: True
 #      SECRET_KEY: ${{ secrets.SECRET_KEY }}
     steps:
       - uses: actions/checkout@v2
