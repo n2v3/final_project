@@ -126,7 +126,7 @@ class VacancyViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
 
         # Execute Celery task
-        # vacancy_created_task.delay(serializer.instance.job_title)
+        #  vacancy_created_task.delay(serializer.instance.job_title)
         # Execute Celery task with the entire serialized data
         vacancy_created_task.delay(serializer.instance.job_title)
 
