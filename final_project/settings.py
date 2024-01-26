@@ -104,7 +104,6 @@ DATABASES = {
     "default": sqlite_db if not os.environ.get("DB_NAME") else postgres_db
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
