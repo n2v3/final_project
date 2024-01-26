@@ -8,7 +8,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
+#    env:
 #      USE_SQLITE: True
 #      SECRET_KEY: ${{ secrets.SECRET_KEY }}
     steps:
