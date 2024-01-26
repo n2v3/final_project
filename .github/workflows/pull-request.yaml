@@ -32,5 +32,7 @@ jobs:
           python manage.py makemigrations --check --dry-run
       - name: Code coverage
         run: |
+          # Set DATABASE_URL to use SQLite if USE_SQLITE is True
+          echo "DATABASE_URL=sqlite:///:memory:" > .env
           coverage run --source='.' manage.py test
-          coverage report --fail-under=60
+          coverage report --fail-under=80
