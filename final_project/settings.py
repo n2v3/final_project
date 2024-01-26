@@ -101,7 +101,8 @@ sqlite_db = {
 }
 
 DATABASES = {
-    "default": os.environ.get("DB_NAME") and postgres_db or sqlite_db
+    "default": os.environ.get("USE_SQLITE", "False") == "True" and
+    sqlite_db or postgres_db,
 }
 
 
