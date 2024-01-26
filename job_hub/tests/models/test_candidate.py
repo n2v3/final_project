@@ -1,16 +1,17 @@
 from django.test import TestCase
 from job_hub.models import Candidate, Skill
 
+
 class CandidateModelTest(TestCase):
     def setUp(self):
         # Create a Skill instance for testing
-        self.skill = Skill.objects.create(skill_name='Test Skill')
+        self.skill = Skill.objects.create(skill_name="Test Skill")
 
         # Create a Candidate instance for testing
         self.candidate = Candidate.objects.create(
-            candidate_first_name='Test candidate first name',
-            candidate_last_name='Test candidate last name',
-            email='Test Email',
+            candidate_first_name="Test candidate first name",
+            candidate_last_name="Test candidate last name",
+            email="Test Email",
         )
 
         # Add the Skill to the many-to-many relationship using set()
@@ -21,9 +22,14 @@ class CandidateModelTest(TestCase):
         self.assertIsInstance(self.candidate, Candidate)
 
         # Additional assertions
-        self.assertEqual(self.candidate.candidate_first_name, 'Test candidate first name')
-        self.assertEqual(self.candidate.candidate_last_name, 'Test candidate last name')
-        self.assertEqual(self.candidate.email, 'Test Email')
+        self.assertEqual(
+            self.candidate.candidate_first_name, "Test candidate first name"
+        )
+        self.assertEqual(
+            self.candidate.candidate_last_name,
+            "Test candidate last name"
+        )
+        self.assertEqual(self.candidate.email, "Test Email")
         self.assertEqual(list(self.candidate.skills.all()), [self.skill])
 
     def test_get_skills_list(self):
@@ -36,5 +42,5 @@ class CandidateModelTest(TestCase):
 
     def test_str_representation(self):
         # Test the __str__ method for the Candidate model
-        expected_str = 'Test candidate first name Test candidate last name'
+        expected_str = "Test candidate first name Test candidate last name"
         self.assertEqual(str(self.candidate), expected_str)

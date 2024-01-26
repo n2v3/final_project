@@ -10,13 +10,23 @@ CREDENTIALS_PATH = os.path.join(
 
 gc = gspread.service_account(filename=CREDENTIALS_PATH)
 
+
 def write_to_sheet(data):
     try:
         sh = gc.open("Job Hub")
         worksheet = sh.sheet1
 
-        columns = ['ID', 'Job Title', 'Category', 'Company', 'Description', 'Requirements', 'Location', 'Salary',
-                   'Posted at']
+        columns = [
+            "ID",
+            "Job Title",
+            "Category",
+            "Company",
+            "Description",
+            "Requirements",
+            "Location",
+            "Salary",
+            "Posted at",
+        ]
 
         # Retrieve the first row (headers) from the worksheet
         existing_columns = worksheet.row_values(1)
@@ -35,5 +45,6 @@ def write_to_sheet(data):
         print(f"Error writing to Google Sheet: {e}")
         traceback.print_exc()
 
-if __name__ == '__main__':
-    write_to_sheet([['Vacancy1', 'Vacancy2'], ['Vacancy3', 'Vacancy4']])
+
+if __name__ == "__main__":
+    write_to_sheet([["Vacancy1", "Vacancy2"], ["Vacancy3", "Vacancy4"]])

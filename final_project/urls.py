@@ -25,23 +25,27 @@ import job_hub.views as view
 from telegram.views import accept_telegram_message
 
 router = DefaultRouter()
-router.register(r'candidates', job_hub_viewsets.CandidateViewSet)
-router.register(r'employees', job_hub_viewsets.EmployeeViewSet)
-router.register(r'employers', job_hub_viewsets.EmployerViewSet)
-router.register(r'company-profiles', job_hub_viewsets.CompanyProfileViewSet)
-router.register(r'vacancies', job_hub_viewsets.VacancyViewSet)
-router.register(r'categories', job_hub_viewsets.CategoryViewSet)
-router.register(r'comments', job_hub_viewsets.CommentViewSet, basename='comment')
-router.register(r'locations', job_hub_viewsets.LocationViewSet)
-router.register(r'rates', job_hub_viewsets.RateViewSet, basename='rate')
-router.register(r'salaries', job_hub_viewsets.SalaryViewSet)
-router.register(r'skills', job_hub_viewsets.SkillViewSet)
+router.register(r"candidates", job_hub_viewsets.CandidateViewSet)
+router.register(r"employees", job_hub_viewsets.EmployeeViewSet)
+router.register(r"employers", job_hub_viewsets.EmployerViewSet)
+router.register(r"company-profiles", job_hub_viewsets.CompanyProfileViewSet)
+router.register(r"vacancies", job_hub_viewsets.VacancyViewSet)
+router.register(r"categories", job_hub_viewsets.CategoryViewSet)
+router.register(
+    r"comments",
+    job_hub_viewsets.CommentViewSet,
+    basename="comment"
+)
+router.register(r"locations", job_hub_viewsets.LocationViewSet)
+router.register(r"rates", job_hub_viewsets.RateViewSet, basename="rate")
+router.register(r"salaries", job_hub_viewsets.SalaryViewSet)
+router.register(r"skills", job_hub_viewsets.SkillViewSet)
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/auth/', obtain_auth_token),
-    path('api/', include(router.urls)),
-    path('api/register/', view.registration_view),
-    path('telegram/', accept_telegram_message)
+    path("admin/", admin.site.urls),
+    path("api/auth/", obtain_auth_token),
+    path("api/", include(router.urls)),
+    path("api/register/", view.registration_view),
+    path("telegram/", accept_telegram_message),
 ]
