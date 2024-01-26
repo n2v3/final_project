@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       USE_SQLITE: True
-#      SECRET_KEY: ${{ secrets.SECRET_KEY }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.12
@@ -32,8 +31,5 @@ jobs:
           python manage.py makemigrations --check --dry-run
       - name: Code coverage
         run: |
-          # Set DATABASE_URL to use SQLite if USE_SQLITE is True
-          echo "DATABASE_URL=sqlite:///:memory:" > .env
-          python manage.py test
           coverage run --source='.' manage.py test
           coverage report --fail-under=80
