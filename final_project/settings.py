@@ -89,7 +89,7 @@ BASE_DIR = Path(__file__).resolve().parent
 
 sqlite_db = {
     "ENGINE": "django.db.backends.sqlite3",
-    "NAME": BASE_DIR / "db.sqlite3"
+    "NAME": BASE_DIR / "db.sqlite3",
 }
 
 postgres_db = {
@@ -102,10 +102,13 @@ postgres_db = {
 }
 
 DATABASES = {
-    "default": sqlite_db
-    if os.environ.get("USE_SQLITE", "False") == "True"
-    else postgres_db,
+    "default": (
+        sqlite_db
+        if os.environ.get("USE_SQLITE", "False") == "True"
+        else postgres_db
+    ),
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
