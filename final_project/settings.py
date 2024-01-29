@@ -104,7 +104,7 @@ postgres_db = {
 DATABASES = {
     "default": (
         sqlite_db
-        if os.environ.get("USE_SQLITE", "False") == "True"
+        if os.environ.get("USE_SQLITE", "False") == "true"
         else postgres_db
     ),
 }
