@@ -102,7 +102,8 @@ postgres_db = {
 }
 
 DATABASES = {
-    "default": sqlite_db if os.environ.get("USE_SQLITE", "False") == "True" else postgres_db,
+    "default": sqlite_db if os.environ.get("USE_SQLITE", "False") == "True"
+    else postgres_db,
 }
 
 # Password validation
