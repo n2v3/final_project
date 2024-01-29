@@ -13,8 +13,6 @@ jobs:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
     steps:
       - uses: actions/checkout@v2
-      - name: Display USE_SQLITE value
-        run: echo "USE_SQLITE=${{ env.USE_SQLITE }}"
       - name: Set up Python 3.12
         uses: actions/setup-python@v2
         with:
@@ -26,6 +24,13 @@ jobs:
       - name: Lint with flake8
         run: |
           flake8 .
+      - name: Display Environment Variables
+        run: |
+          echo "DB_NAME=${{ env.DB_NAME }}"
+          echo "DB_USER=${{ env.DB_USER }}"
+          echo "DB_PASSWORD=${{ env.DB_PASSWORD }}"
+          echo "DB_HOST=${{ env.DB_HOST }}"
+          echo "DB_PORT=${{ env.DB_PORT }}"
       - name: Test with Django test
         run: |
           python manage.py test
@@ -34,7 +39,5 @@ jobs:
           python manage.py makemigrations --check --dry-run
       - name: Code coverage
         run: |
-          # Set DATABASE_URL to use SQLite
-          echo "DATABASE_URL=sqlite:///:memory:" > .env
           coverage run --source='.' manage.py test
           coverage report --fail-under=80
