@@ -85,23 +85,24 @@ WSGI_APPLICATION = "final_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-postgres_db = {
-    "ENGINE": "django.db.backends.postgresql",
-    "NAME": os.environ.get("DB_NAME"),
-    "USER": os.environ.get("DB_USER"),
-    "PASSWORD": os.environ.get("DB_PASSWORD"),
-    "HOST": os.environ.get("DB_HOST"),
-    "PORT": "5432",
-}
+BASE_DIR = Path(__file__).resolve().parent
 
 sqlite_db = {
     "ENGINE": "django.db.backends.sqlite3",
     "NAME": BASE_DIR / "db.sqlite3"
 }
 
+postgres_db = {
+    "ENGINE": "django.db.backends.postgresql",
+    "NAME": os.environ.get("DB_NAME"),
+    "USER": os.environ.get("DB_USER"),
+    "PASSWORD": os.environ.get("DB_PASSWORD"),
+    "HOST": os.environ.get("DB_HOST"),
+    "PORT": os.environ.get("DB_PORT"),
+}
+
 DATABASES = {
-    "default": os.environ.get("USE_SQLITE", "False") == "True" and
-    sqlite_db or postgres_db,
+    "default": sqlite_db if os.environ.get("USE_SQLITE", "False") == "True" else postgres_db,
 }
 
 # Password validation

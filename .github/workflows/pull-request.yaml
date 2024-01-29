@@ -24,13 +24,6 @@ jobs:
       - name: Lint with flake8
         run: |
           flake8 .
-      - name: Display Environment Variables
-        run: |
-          echo "DB_NAME=${{ env.DB_NAME }}"
-          echo "DB_USER=${{ env.DB_USER }}"
-          echo "DB_PASSWORD=${{ env.DB_PASSWORD }}"
-          echo "DB_HOST=${{ env.DB_HOST }}"
-          echo "DB_PORT=${{ env.DB_PORT }}"
       - name: Test with Django test
         run: |
           python manage.py test
