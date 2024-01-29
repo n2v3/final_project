@@ -13,6 +13,8 @@ jobs:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
     steps:
       - uses: actions/checkout@v2
+      - name: Display USE_SQLITE value
+        run: echo "USE_SQLITE=${{ env.USE_SQLITE }}"
       - name: Set up Python 3.12
         uses: actions/setup-python@v2
         with:
@@ -24,8 +26,6 @@ jobs:
       - name: Lint with flake8
         run: |
           flake8 .
-      - name: Display USE_SQLITE value
-        run: echo "USE_SQLITE=${{ env.USE_SQLITE }}"
       - name: Test with Django test
         run: |
           python manage.py test
