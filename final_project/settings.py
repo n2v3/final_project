@@ -92,23 +92,21 @@ sqlite_db = {
     "NAME": BASE_DIR / "db.sqlite3",
 }
 
-if os.environ.get("DATABASE_URL"):
-    import dj_database_url
-
-    postgres_db = dj_database_url.config(conn_max_age=600, ssl_require=True)
-else:
-    postgres_db = {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("DB_NAME"),
-        "HOST": os.environ.get("DB_HOST"),
-        "PORT": os.environ.get("DB_PORT", 5432),
-        "USER": os.environ.get("DB_USER"),
-        "PASSWORD": os.environ.get("DB_PASSWORD"),
-    }
+postgres_db = {
+    "ENGINE": "django.db.backends.postgresql",
+    "NAME": os.environ.get("DB_NAME"),
+    "USER": os.environ.get("DB_USER"),
+    "PASSWORD": os.environ.get("DB_PASSWORD"),
+    "HOST": os.environ.get("DB_HOST"),
+    "PORT": os.environ.get("DB_PORT"),
+}
 
 DATABASES = {
-    "default": os.environ.get("USE_SQLITE", "False") == "True" and
-    sqlite_db or postgres_db,
+    "default": (
+        sqlite_db
+        if os.environ.get("USE_SQLITE", "False") == "true"
+        else postgres_db
+    ),
 }
 
 
