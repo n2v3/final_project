@@ -25,7 +25,7 @@ jobs:
         run: |
           flake8 .
       - name: Display DATABASES configuration
-        run: python -c "from myproject.settings import DATABASES; print(DATABASES)"
+        run: python -c "from final_project.settings import DATABASES; print(DATABASES)"
       - name: Test with Django test
         run: |
           python manage.py test
