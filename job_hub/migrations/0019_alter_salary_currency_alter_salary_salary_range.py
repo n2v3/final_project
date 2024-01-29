@@ -15,11 +15,35 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='salary',
             name='currency',
-            field=models.CharField(choices=[('USD', 'US Dollar'), ('EUR', 'Euro'), ('GBP', 'British Pound')], default='USD', max_length=3, validators=[django.core.validators.RegexValidator(re.compile('^\\d+(?:,\\d+)*\\Z'), code='invalid', message='Enter only digits separated by commas.')]),
+            field=models.CharField(choices=[
+                ('USD', 'US Dollar'),
+                ('EUR', 'Euro'),
+                ('GBP', 'British Pound')
+            ],
+                default='USD',
+                max_length=3,
+                validators=[django.core.validators.RegexValidator(
+                    re.compile('^\\d+(?:,\\d+)*\\Z'),
+                    code='invalid',
+                    message='Enter only digits separated by commas.')
+                ]),
         ),
         migrations.AlterField(
             model_name='salary',
             name='salary_range',
-            field=models.CharField(choices=[('UNDER 500', 'Under 500'), ('500 – 1000', '500 – 1000'), ('1000 – 2000', '1000 – 2000'), ('2000 – 3500', '2000 – 3500'), ('3500 – 5000', '3500 – 5000'), ('ABOVE 5000', 'Above 5000')], default='Under 500', max_length=20, validators=[django.core.validators.RegexValidator(re.compile('^\\d+(?:,\\d+)*\\Z'), code='invalid', message='Enter only digits separated by commas.')]),
+            field=models.CharField(choices=[
+                ('UNDER 500', 'Under 500'),
+                ('500 – 1000', '500 – 1000'),
+                ('1000 – 2000', '1000 – 2000'),
+                ('2000 – 3500', '2000 – 3500'),
+                ('3500 – 5000', '3500 – 5000'),
+                ('ABOVE 5000', 'Above 5000')
+            ],
+                default='Under 500',
+                max_length=20,
+                validators=[django.core.validators.RegexValidator(
+                    re.compile('^\\d+(?:,\\d+)*\\Z'),
+                    code='invalid',
+                    message='Enter only digits separated by commas.')]),
         ),
     ]
