@@ -30,7 +30,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "3f39-91-214-85-107.ngrok-free.app"]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "3f39-91-214-85-107.ngrok-free.app",
+    # "host.docker.internal",
+    # "0.0.0.0"
+]
 
 
 # Application definition
@@ -102,7 +108,7 @@ postgres_db = {
 DATABASES = {
     "default": (
         sqlite_db
-        if os.environ.get("USE_SQLITE", "False") == "true"
+        if os.environ.get("USE_SQLITE", "False").lower() == "true"
         else postgres_db
     ),
 }
