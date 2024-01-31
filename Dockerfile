@@ -5,11 +5,17 @@ FROM python:3.12
 WORKDIR /app
 
 # Copy the entire project into the container
-COPY . /app
+#COPY . /app
+
+COPY requirements.txt /app
 
 # Install Python dependencies
 RUN pip install -r requirements.txt
 
+VOLUME ["/app"]
+
+# Install psql
+RUN apt-get update && apt-get install -y postgresql-client
 
 # Expose port 8000
 EXPOSE 8000
