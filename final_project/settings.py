@@ -35,7 +35,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "3f39-91-214-85-107.ngrok-free.app",
     # "host.docker.internal",
-    # "0.0.0.0"
+    "0.0.0.0"
 ]
 
 
@@ -59,6 +59,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
