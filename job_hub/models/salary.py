@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Salary(models.Model):
     RANGE_CHOICES = [
         ("UNDER 500", "Under 500"),

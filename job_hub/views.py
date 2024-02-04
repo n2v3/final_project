@@ -9,6 +9,7 @@ from rest_framework.response import Response
 
 from .serializers import RegistrationSerializer
 
+
 @swagger_auto_schema(
     methods=['post'],
     request_body=RegistrationSerializer,

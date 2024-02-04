@@ -10,7 +10,10 @@ from telegram.client import send_telegram_message
 
 @app.task(bind=True)
 def vacancy_created_task(self, job_title):
-    send_telegram_message(f"Hey! A new vacancy — {job_title} — has just been added🤩")
+    send_telegram_message(
+        f"Hey! A new vacancy — {job_title} — "
+        f"has just been added🤩"
+    )
 
 
 # @app.task(bind=True)

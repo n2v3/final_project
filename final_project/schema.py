@@ -3,8 +3,10 @@ from graphene import relay
 from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 
-from job_hub.models import Vacancy, CompanyProfile, Location, Category, Salary, Skill, Rate, Employer, Employee, \
-    Comment, Candidate
+from job_hub.models import (
+    Vacancy, CompanyProfile, Location, Category, Salary,
+    Skill, Rate, Employer, Employee, Comment, Candidate
+)
 
 
 class EmployerNode(DjangoObjectType):
@@ -20,10 +22,15 @@ class EmployeeNode(DjangoObjectType):
         filter_fields = ['employee_first_name', 'employee_last_name', 'email']
         interfaces = (relay.Node,)
 
+
 class CandidateNode(DjangoObjectType):
     class Meta:
         model = Candidate
-        filter_fields = ['candidate_first_name', 'candidate_last_name', 'email']
+        filter_fields = [
+            'candidate_first_name',
+            'candidate_last_name',
+            'email'
+        ]
         interfaces = (relay.Node,)
 
 
@@ -36,6 +43,7 @@ class SalaryNode(DjangoObjectType):
         }
         interfaces = (relay.Node,)
 
+
 class CompanyProfileNode(DjangoObjectType):
     class Meta:
         model = CompanyProfile
@@ -47,6 +55,7 @@ class CompanyProfileNode(DjangoObjectType):
         }
         interfaces = (relay.Node,)
 
+
 class LocationNode(DjangoObjectType):
     class Meta:
         model = Location
@@ -54,6 +63,7 @@ class LocationNode(DjangoObjectType):
             'location_name': ['exact'],
         }
         interfaces = (relay.Node,)
+
 
 class CategoryNode(DjangoObjectType):
     class Meta:
@@ -63,6 +73,7 @@ class CategoryNode(DjangoObjectType):
         }
         interfaces = (relay.Node,)
 
+
 class SkillNode(DjangoObjectType):
     class Meta:
         model = Skill
@@ -70,6 +81,7 @@ class SkillNode(DjangoObjectType):
             'skill_name': ['exact', 'icontains', 'istartswith'],
         }
         interfaces = (relay.Node,)
+
 
 class VacancyNode(DjangoObjectType):
     class Meta:
@@ -87,17 +99,20 @@ class VacancyNode(DjangoObjectType):
         }
         interfaces = (relay.Node,)
 
+
 class RateNode(DjangoObjectType):
     class Meta:
         model = Rate
         filter_fields = ['rating_value', 'vacancy']
         interfaces = (relay.Node,)
 
+
 class CommentNode(DjangoObjectType):
     class Meta:
         model = Comment
         filter_fields = ['vacancy']
         interfaces = (relay.Node,)
+
 
 class Query(graphene.ObjectType):
     employer = relay.Node.Field(EmployerNode)
@@ -132,5 +147,6 @@ class Query(graphene.ObjectType):
 
     comment = relay.Node.Field(CommentNode)
     all_comments = DjangoFilterConnectionField(CommentNode)
+
 
 schema = graphene.Schema(query=Query)

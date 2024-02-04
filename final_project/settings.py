@@ -177,7 +177,10 @@ REST_FRAMEWORK = {
     # "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
 }
 
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://127.0.0.1:6379/0")
+CELERY_BROKER_URL = os.environ.get(
+    "CELERY_BROKER_URL",
+    "redis://127.0.0.1:6379/0"
+)
 
 CELERY_BEAT_SCHEDULE = {
     # 'every_second_task': {
