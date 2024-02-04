@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "django_filters",
     "celery",
     "drf_yasg",
+    "graphene_django",
     # my apps
     "job_hub",
 ]
@@ -191,6 +192,10 @@ CELERY_BEAT_SCHEDULE = {
     #     'task': 'job_hub.tasks.every_minute_task',
     #     'schedule': 60.0,
     # }
+}
+
+GRAPHENE = {
+    "SCHEMA": "final_project.schema.schema"
 }
 
 # LOGGING = {
