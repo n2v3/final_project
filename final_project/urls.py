@@ -18,6 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework import permissions
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
 
 import job_hub.viewsets as job_hub_viewsets
 
@@ -41,6 +44,18 @@ router.register(r"rates", job_hub_viewsets.RateViewSet, basename="rate")
 router.register(r"salaries", job_hub_viewsets.SalaryViewSet)
 router.register(r"skills", job_hub_viewsets.SkillViewSet)
 
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Job Hub API",
+      default_version='v1',
+      description="Test description",
+      terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="contact@snippets.local"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True,
+   permission_classes=[permissions.AllowAny],
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -48,4 +63,7 @@ urlpatterns = [
     path("api/", include(router.urls)),
     path("api/register/", view.registration_view),
     path("telegram/", accept_telegram_message),
+    path('api/swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('api/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('api/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

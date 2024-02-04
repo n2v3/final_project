@@ -35,7 +35,8 @@ ALLOWED_HOSTS = [
     "localhost",
     "3f39-91-214-85-107.ngrok-free.app",
     # "host.docker.internal",
-    "0.0.0.0"
+    "0.0.0.0",
+    'b648-91-214-85-107.ngrok-free.app'
 ]
 
 
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "django_filters",
     "celery",
+    "drf_yasg",
     # my apps
     "job_hub",
 ]
@@ -171,9 +173,10 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination."
                                 "PageNumberPagination",
     "PAGE_SIZE": 10,
+    # "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
 }
 
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL")
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://127.0.0.1:6379/0")
 
 CELERY_BEAT_SCHEDULE = {
     # 'every_second_task': {
@@ -189,3 +192,17 @@ CELERY_BEAT_SCHEDULE = {
     #     'schedule': 60.0,
     # }
 }
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#         'level': 'DEBUG',  # Adjust the level as needed
+#     },
+# }

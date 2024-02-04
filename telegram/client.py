@@ -2,7 +2,7 @@ import os
 import requests
 
 
-def send_message(text, chat_id=None):
+def send_telegram_message(text, chat_id=None):
     token = os.environ.get("TELEGRAM_API_TOKEN")
     default_chat_id = "427396286"
 

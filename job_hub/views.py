@@ -1,3 +1,4 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.decorators import (
     api_view,
@@ -8,7 +9,11 @@ from rest_framework.response import Response
 
 from .serializers import RegistrationSerializer
 
-
+@swagger_auto_schema(
+    methods=['post'],
+    request_body=RegistrationSerializer,
+    responses={200: "OK"},
+)
 @api_view(["POST"])
 @permission_classes([])
 @authentication_classes([])

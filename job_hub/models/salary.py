@@ -1,10 +1,6 @@
 from django.db import models
-from django.core.validators import validate_comma_separated_integer_list
-
 
 class Salary(models.Model):
-    # salary_range_start = models.DecimalField(max_digits=10, decimal_places=2)
-    # salary_range_end = models.DecimalField(max_digits=10, decimal_places=2)
     RANGE_CHOICES = [
         ("UNDER 500", "Under 500"),
         ("500 – 1000", "500 – 1000"),
@@ -18,7 +14,6 @@ class Salary(models.Model):
         max_length=20,
         choices=RANGE_CHOICES,
         default="Under 500",
-        validators=[validate_comma_separated_integer_list],
     )
 
     CURRENCY_CHOICES = [
@@ -31,7 +26,6 @@ class Salary(models.Model):
         max_length=3,
         choices=CURRENCY_CHOICES,
         default="USD",
-        validators=[validate_comma_separated_integer_list],
     )
 
     def __str__(self):

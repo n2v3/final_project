@@ -5,12 +5,12 @@ from django.utils import timezone
 from final_project.celery import app
 from google_sheets.client import write_to_sheet
 
-from telegram.client import send_message
+from telegram.client import send_telegram_message
 
 
 @app.task(bind=True)
 def vacancy_created_task(self, job_title):
-    send_message(f"Hey! A new vacancy — {job_title} — has just been added🤩")
+    send_telegram_message(f"Hey! A new vacancy — {job_title} — has just been added🤩")
 
 
 # @app.task(bind=True)
@@ -39,7 +39,7 @@ def everyday_calculation_of_added_vacancies(self):
         f"Number of new vacancies during the last day: "
         f"{added_vacancies_during_last_day}"
     )
-    send_message(
+    send_telegram_message(
         f"Number of new vacancies during the last day: "
         f"{added_vacancies_during_last_day}"
     )

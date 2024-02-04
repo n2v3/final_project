@@ -15,10 +15,11 @@ worker_class = "sync"
 threads = 1
 
 # Logging
-loglevel = "info" # could be 'debug'
+# loglevel = "info"  # could be 'debug'
 
 # Limit count of requests per worker
 max_requests = 10
 
 # Other interesting configuration
-# preload_app = True # Load application code before the worker processes are forked.
+# Load application code before the worker processes are forked.
+# preload_app = True
