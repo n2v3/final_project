@@ -15,8 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth.views import LogoutView
 from django.urls import path, include
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import TemplateView
 from graphene_django.views import GraphQLView
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
@@ -75,4 +77,7 @@ urlpatterns = [
          schema_view.with_ui('redoc', cache_timeout=0),
          name='schema-redoc'),
     path("graphql", csrf_exempt(GraphQLView.as_view(graphiql=True))),
+    path("", TemplateView.as_view(template_name="index.html")),
+    path("accounts/", include("allauth.urls")),
+    path("logout/", LogoutView.as_view()),
 ]
