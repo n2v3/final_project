@@ -8,7 +8,7 @@ class Location(models.Model):
         ("CHERNIGIV", "Chernigiv"),
         ("CHERNIVTSY", "Chernivtsy"),
         ("CRIMEA", "Crimea"),
-        ("DNEPRO", "Dnepro"),
+        ("DNIPRO", "Dnipro"),
         ("DONETSK", "Donetsk"),
         ("IVANO-FRANKIVSK", "Ivano-Frankivsk"),
         ("KHARKIV", "Kharkiv"),
