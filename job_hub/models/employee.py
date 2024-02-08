@@ -6,13 +6,11 @@ class Employee(models.Model):
     employee_first_name = models.CharField(max_length=255)
     employee_last_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
-    position = models.CharField(max_length=255, blank=True, null=True)
+    position = models.CharField(max_length=255)
     company_name = models.ForeignKey(
         CompanyProfile,
         on_delete=models.CASCADE,
         related_name="employees",
-        null=True,
-        blank=True,
     )
     skills = models.ManyToManyField("Skill")
 

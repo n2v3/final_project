@@ -48,16 +48,21 @@ class EmployerAdmin(admin.ModelAdmin):
 @admin.register(CompanyProfile)
 class CompanyProfileAdmin(admin.ModelAdmin):
     list_display = (
-        "company_name",
-        "website",
-        "location",
-        "amount_of_employees"
+        'company_name',
+        'website',
+        'display_locations',
+        'amount_of_employees'
     )
-    search_fields = (
-        "company_name",
-        "website",
-        "location__location_name"
-    )
+    ordering = ['company_name', 'amount_of_employees']
+
+    def display_locations(self, obj):
+        return ", ".join(
+            [
+                location.location_name for location in obj.locations.all()
+            ]
+        )
+
+    display_locations.short_description = 'Locations'
 
 
 @admin.register(Vacancy)
@@ -79,6 +84,7 @@ class VacancyAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("category_name",)
     search_fields = ("category_name",)
+    ordering = ['category_name']
 
 
 @admin.register(Comment)

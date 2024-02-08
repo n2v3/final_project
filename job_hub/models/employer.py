@@ -12,8 +12,6 @@ class Employer(models.Model):
         CompanyProfile,
         on_delete=models.CASCADE,
         related_name="employers",
-        null=True,
-        blank=True,
     )
     skills = models.ManyToManyField(Skill)
 

@@ -12,8 +12,8 @@ class CompanyProfile(models.Model):
 
     company_name = models.CharField(max_length=255, unique=True)
     website = models.URLField(unique=True)
-    location = models.ForeignKey(
-        Location, on_delete=models.CASCADE, related_name="company_profile"
+    locations = models.ManyToManyField(
+        Location, related_name="company_profiles"
     )
     amount_of_employees = models.PositiveIntegerField(
         choices=EMPLOYEES_CHOICES
