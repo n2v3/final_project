@@ -17,8 +17,8 @@ class RateModelTest(TestCase):
         company_profile = CompanyProfile.objects.create(
             company_name="Test Company",
             amount_of_employees=4,
-            location=location
         )
+        company_profile.locations.add(location)
         salary = Salary.objects.create(salary_range="Test salary range")
 
         # Create a Vacancy instance for testing

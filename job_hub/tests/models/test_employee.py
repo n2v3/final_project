@@ -11,8 +11,10 @@ class EmployeeModelTest(TestCase):
         self.company_profile = CompanyProfile.objects.create(
             company_name="Test Company",
             amount_of_employees=1,
-            location=location
         )
+
+        # Add the location to the many-to-many relationship using add()
+        self.company_profile.locations.add(location)
 
         # Create a Skill instance for testing
         self.skill = Skill.objects.create(skill_name="Test Skill")

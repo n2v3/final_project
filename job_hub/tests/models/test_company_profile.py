@@ -12,8 +12,10 @@ class EmployerModelTest(TestCase):
             company_name="Test Company",
             website="Test website",
             amount_of_employees=2,  # Example value from choices
-            location=self.location,
         )
+
+        # Add the location to the many-to-many relationship using add()
+        company_profile.locations.add(self.location)
 
         # Check if the object was created successfully
         self.assertIsInstance(company_profile, CompanyProfile)
@@ -22,4 +24,6 @@ class EmployerModelTest(TestCase):
         self.assertEqual(company_profile.company_name, "Test Company")
         self.assertEqual(company_profile.website, "Test website")
         self.assertEqual(company_profile.amount_of_employees, 2)
-        self.assertEqual(company_profile.locations, self.location)
+
+        # Check if the location is associated with the CompanyProfile
+        self.assertIn(self.location, company_profile.locations.all())
