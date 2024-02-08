@@ -22,4 +22,4 @@ class EmployerModelTest(TestCase):
         self.assertEqual(company_profile.company_name, "Test Company")
         self.assertEqual(company_profile.website, "Test website")
         self.assertEqual(company_profile.amount_of_employees, 2)
-        self.assertEqual(company_profile.location, self.location)
+        self.assertEqual(company_profile.locations, self.location)
