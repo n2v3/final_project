@@ -15,7 +15,7 @@ class LocationModelTest(TestCase):
 
     def test_save_duplicate_location(self):
         # Create a Location instance with a specific location name
-        location = Location.objects.create(location_name="Kyiv")
+        _ = Location.objects.create(location_name="Kyiv")
 
         # Try to create another Location with the same location name
         with self.assertRaises(ValidationError):

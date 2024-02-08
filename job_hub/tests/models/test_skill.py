@@ -15,7 +15,7 @@ class SkillModelTest(TestCase):
 
     def test_save_duplicate_skill(self):
         # Create a Skill instance with a specific skill name
-        skill = Skill.objects.create(skill_name="Teamwork")
+        _ = Skill.objects.create(skill_name="Teamwork")
 
         # Try to create another Skill with the same name
         with self.assertRaises(ValidationError):

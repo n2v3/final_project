@@ -19,7 +19,7 @@ class SalaryModelTest(TestCase):
 
     def test_save_duplicate_salary(self):
         # Create a Salary instance with a specific salary range and currency
-        salary = Salary.objects.create(
+        _ = Salary.objects.create(
             salary_range="3500 – 5000",
             currency="GBP"
         )

@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
@@ -169,19 +168,6 @@ class RateSerializer(serializers.ModelSerializer):
             "company_profile",
         ]
 
-
-# class RegistrationSerializer(serializers.ModelSerializer):
-#     token = serializers.SerializerMethodField(read_only=True)
-#
-#     def get_token(self, user):
-#         token, _ = Token.objects.get_or_create(user=user)
-#         return token.key
-#
-#     class Meta:
-#         model = User
-#         fields = ("username", "password", "token")
-
-User = get_user_model()
 
 class RegistrationSerializer(serializers.ModelSerializer):
     token = serializers.SerializerMethodField(read_only=True)

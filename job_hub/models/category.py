@@ -23,10 +23,14 @@ class Category(models.Model):
 
     def save(self, *args, **kwargs):
         # Check if an object with the same category_name already exists
-        existing_category = Category.objects.filter(category_name=self.category_name).first()
+        existing_category = Category.objects.filter(
+            category_name=self.category_name
+        ).first()
 
         if existing_category:
-            raise ValidationError("Category with the same name already exists.")
+            raise ValidationError(
+                "Category with the same name already exists."
+            )
 
         super().save(*args, **kwargs)
 

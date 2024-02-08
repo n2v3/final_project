@@ -41,7 +41,9 @@ class Salary(models.Model):
         ).first()
 
         if existing_salary:
-            raise ValidationError("Salary with the same range and currency already exists.")
+            raise ValidationError(
+                "Salary with the same range and currency already exists."
+            )
 
         super().save(*args, **kwargs)
 

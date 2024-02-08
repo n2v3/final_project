@@ -44,10 +44,14 @@ class Location(models.Model):
 
     def save(self, *args, **kwargs):
         # Check if an object with the same location_name already exists
-        existing_location = Location.objects.filter(location_name=self.location_name).first()
+        existing_location = Location.objects.filter(
+            location_name=self.location_name
+        ).first()
 
         if existing_location:
-            raise ValidationError("Location with the same name already exists.")
+            raise ValidationError(
+                "Location with the same name already exists."
+            )
 
         super().save(*args, **kwargs)
 

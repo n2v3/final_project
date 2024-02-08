@@ -15,7 +15,7 @@ class CategoryModelTest(TestCase):
 
     def test_save_duplicate_category(self):
         # Create a Category instance with a specific category name
-        category = Category.objects.create(category_name="IT")
+        _ = Category.objects.create(category_name="IT")
 
         # Try to create another Category with the same category name
         with self.assertRaises(ValidationError):

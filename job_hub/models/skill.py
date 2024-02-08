@@ -10,7 +10,9 @@ class Skill(models.Model):
 
     def save(self, *args, **kwargs):
         # Check if an object with the same skill_name already exists
-        existing_skill = Skill.objects.filter(skill_name=self.skill_name).first()
+        existing_skill = Skill.objects.filter(
+            skill_name=self.skill_name
+        ).first()
 
         if existing_skill:
             raise ValidationError("Skill with the same name already exists.")
