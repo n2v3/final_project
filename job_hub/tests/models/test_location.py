@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
-from job_hub.models import Location
+from job_hub.models import Location, CompanyProfile
 
 
 class LocationModelTest(TestCase):
@@ -27,3 +27,23 @@ class LocationModelTest(TestCase):
 
         # Check if the __str__ method returns the expected value
         self.assertEqual(str(location), "Kharkiv")
+
+    def test_company_profile_with_locations(self):
+        # Test creating a CompanyProfile instance with multiple locations
+        company_profile = CompanyProfile.objects.create(
+            company_name="Test Company",
+            website="http://test.com",
+            amount_of_employees=1,
+        )
+
+        # Create multiple Location instances
+        location1 = Location.objects.create(location_name="Kyiv")
+        location2 = Location.objects.create(location_name="Kharkiv")
+
+        # Add locations to the company profile
+        company_profile.locations.add(location1, location2)
+
+        # Check if the company profile has the correct locations
+        self.assertEqual(company_profile.locations.count(), 2)
+        self.assertIn(location1, company_profile.locations.all())
+        self.assertIn(location2, company_profile.locations.all())
