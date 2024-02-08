@@ -2,14 +2,6 @@ import django_filters
 
 
 class VacancyFilter(django_filters.FilterSet):
-    # SALARY_CHOICES = [
-    #     (1, 'Less than 500'),
-    #     (2, '500 - 1000'),
-    #     (3, '1000 - 2000'),
-    #     (4, '2000 - 3500'),
-    #     (5, '3500 - 5000'),
-    #     (6, 'Above 5000'),
-    # ]
 
     CATEGORY_CHOICES = [
         (1, "Information Technology"),
@@ -36,13 +28,6 @@ class VacancyFilter(django_filters.FilterSet):
         lookup_expr="iexact",
         label="Company Name",
     )
-
-    # salary = django_filters.ChoiceFilter(
-    #     field_name='salary',
-    #     choices=SALARY_CHOICES,
-    #     label='Salary Range',
-    #     lookup_expr='exact',
-    # )
 
     category = django_filters.ChoiceFilter(
         field_name="category",

@@ -128,3 +128,4 @@ class SalaryAdmin(admin.ModelAdmin):
 class SkillAdmin(admin.ModelAdmin):
     list_display = ("skill_name",)
     search_fields = ("skill_name",)
+    ordering = ['skill_name']

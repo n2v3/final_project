@@ -50,7 +50,7 @@ class CompanyProfileNode(DjangoObjectType):
         filter_fields = {
             'company_name': ['exact', 'icontains', 'istartswith'],
             'website': ['exact', 'icontains', 'istartswith'],
-            'location': ['exact'],
+            'locations': ['exact'],
             'amount_of_employees': ['exact'],
         }
         interfaces = (relay.Node,)

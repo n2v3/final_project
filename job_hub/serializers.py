@@ -34,12 +34,12 @@ class CompanyProfileSerializer(ModelSerializer):
         model = CompanyProfile
         fields = [
             "id", "company_name", "website",
-            "location", "amount_of_employees"
+            "locations", "amount_of_employees"
         ]
 
 
 class CompanyProfileViewSerializer(CompanyProfileSerializer):
-    location = LocationSerializer()
+    locations = LocationSerializer()
     # Add a field to show the amount of employees
     amount_of_employees = serializers.CharField(
         source="get_amount_of_employees_display", read_only=True
@@ -151,10 +151,6 @@ class CommentViewSerializer(CommentSerializer):
 
 
 class RateSerializer(serializers.ModelSerializer):
-    # company_profile = serializers.CharField(
-    #     source='company_profile.company_name',
-    #     read_only=True
-    # )
     company_profile = CompanyProfileSerializer(read_only=True)
 
     class Meta:

@@ -1,5 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, permissions, status
+from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.response import Response
@@ -42,16 +42,14 @@ from .authentication import MyCustomAuthentication
 from .tasks import vacancy_created_task, update_google_sheet
 
 
-class CustomPermission(permissions.BasePermission):
-    def has_permission(self, request, view):
-        return request.method == "GET" or (
-            request.user and request.user.is_authenticated
-        )
-
-
 class CandidateViewSet(viewsets.ModelViewSet):
-    queryset = Candidate.objects.prefetch_related("skills").all()
-    permission_classes = [MyCustomPermission]
+    queryset = (
+        Candidate.objects
+        .prefetch_related("skills")
+        .order_by('id')
+        .all()
+    )
+    authentication_classes = (MyCustomAuthentication,)
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -63,9 +61,12 @@ class CandidateViewSet(viewsets.ModelViewSet):
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = (
         Employee.objects.
-        select_related("company_name").
-        prefetch_related("skills").all()
+        select_related("company_name")
+        .prefetch_related("skills")
+        .order_by('id')
+        .all()
     )
+    authentication_classes = (MyCustomAuthentication,)
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -79,6 +80,7 @@ class EmployerViewSet(viewsets.ModelViewSet):
         Employer.objects.all()
         .select_related("company_name")
         .prefetch_related("skills")
+        .order_by('id')
         .all()
     )
 
@@ -90,9 +92,14 @@ class EmployerViewSet(viewsets.ModelViewSet):
 
 
 class CompanyProfileViewSet(viewsets.ModelViewSet):
-    queryset = CompanyProfile.objects.select_related("location").all()
+    queryset = (
+        CompanyProfile.objects
+        .prefetch_related("locations")
+        .order_by("id")
+        .all()
+    )
     serializer_class = CompanyProfileSerializer
-    authentication_classes = (MyCustomAuthentication,)
+    permission_classes = [MyCustomPermission]
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -107,8 +114,7 @@ class VacancyViewSet(viewsets.ModelViewSet):
         .prefetch_related("associated_locations", "skills")
         .all()
     )
-    # permission_classes = (IsAuthenticatedOrReadOnly, )
-    # authentication_classes = (TokenAuthentication,)
+    permission_classes = [MyCustomPermission]
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_class = VacancyFilter
     search_fields = ["description", "requirements"]
@@ -126,26 +132,8 @@ class VacancyViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
 
         # Execute Celery task
-        #  vacancy_created_task.delay(serializer.instance.job_title)
-        # Execute Celery task with the entire serialized data
         vacancy_created_task.delay(serializer.instance.job_title)
 
-        # Serialize the Salary field manually
-        # salary_data = {
-        #     'id': serializer.instance.salary.id,
-        #     'salary_range': serializer.instance.salary.salary_range,
-        # }
-
-        # Trigger the Celery task with all data
-        # update_google_sheet.delay(
-        #     serializer.instance.id,
-        #     serializer.instance.job_title,
-        #     serializer.instance.description,
-        #     serializer.instance.requirements,
-        #     salary_data['salary_range'],  # Access the 'salary_range' key
-        #     serializer.instance.created_at,
-        #     # Add other fields as needed
-        # )
         update_google_sheet.delay(serializer.instance.id)
 
         headers = self.get_success_headers(serializer.data)
@@ -157,12 +145,17 @@ class VacancyViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [ReadOnlyPermission]
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    # queryset = Comment.objects.select_related('vacancy').all()
+    queryset = (
+        Comment.objects.select_related('vacancy')
+        .order_by('id')
+        .all()
+    )
     serializer_class = CommentSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = [IsAuthenticatedOrReadOnly,]
     lookup_field = "id"
 
     # Making request like this http://127.0.0.1:8000/api/comments/?vacancy=5 ,
@@ -182,17 +175,19 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class LocationViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Location.objects.all()
+    queryset = Location.objects.order_by('id').all()
     serializer_class = LocationSerializer
     permission_classes = [ReadOnlyPermission]
 
 
 class RateViewSet(viewsets.ModelViewSet):
-    # queryset = Rate.objects.select_related(
-    #     'vacancy',
-    #     'company_profile'
-    # ).all()
+    queryset = (
+        Rate.objects
+        .select_related('vacancy', 'company_profile')
+        .all()
+    )
     serializer_class = RateSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     lookup_field = "id"
 
     def get_queryset(self):
@@ -204,7 +199,7 @@ class RateViewSet(viewsets.ModelViewSet):
 
 
 class SalaryViewSet(viewsets.ModelViewSet):
-    queryset = Salary.objects.all()
+    queryset = Salary.objects.order_by('id').all()
     serializer_class = SalarySerializer
     permission_classes = [ReadOnlyPermission]
     filter_backends = (DjangoFilterBackend, OrderingFilter)
@@ -212,5 +207,6 @@ class SalaryViewSet(viewsets.ModelViewSet):
 
 
 class SkillViewSet(viewsets.ModelViewSet):
-    queryset = Skill.objects.all()
+    queryset = Skill.objects.order_by('id').all()
     serializer_class = SkillSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
