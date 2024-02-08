@@ -25,5 +25,6 @@ def registration_view(request):
 
     if serializer.is_valid():
         serializer.save()
+        message = {'detail': 'User registered successfully'}
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(message, status=status.HTTP_201_CREATED)

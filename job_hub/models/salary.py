@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -31,6 +32,18 @@ class Salary(models.Model):
 
     def __str__(self):
         return f"{self.salary_range} {self.currency}"
+
+    def save(self, *args, **kwargs):
+        # Check if an object with the same attributes already exists
+        existing_salary = Salary.objects.filter(
+            salary_range=self.salary_range,
+            currency=self.currency,
+        ).first()
+
+        if existing_salary:
+            raise ValidationError("Salary with the same range and currency already exists.")
+
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Salaries"

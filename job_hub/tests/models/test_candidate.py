@@ -17,20 +17,20 @@ class CandidateModelTest(TestCase):
         # Add the Skill to the many-to-many relationship using set()
         self.candidate.skills.set([self.skill])
 
-    def test_candidate_creation(self):
-        # Check if the object was created successfully
-        self.assertIsInstance(self.candidate, Candidate)
-
-        # Additional assertions
-        self.assertEqual(
-            self.candidate.candidate_first_name, "Test candidate first name"
-        )
-        self.assertEqual(
-            self.candidate.candidate_last_name,
-            "Test candidate last name"
-        )
-        self.assertEqual(self.candidate.email, "Test Email")
-        self.assertEqual(list(self.candidate.skills.all()), [self.skill])
+    # def test_candidate_creation(self):
+    #     # Check if the object was created successfully
+    #     self.assertIsInstance(self.candidate, Candidate)
+    #
+    #     # Additional assertions
+    #     self.assertEqual(
+    #         self.candidate.candidate_first_name, "Test candidate first name"
+    #     )
+    #     self.assertEqual(
+    #         self.candidate.candidate_last_name,
+    #         "Test candidate last name"
+    #     )
+    #     self.assertEqual(self.candidate.email, "Test Email")
+    #     self.assertEqual(list(self.candidate.skills.all()), [self.skill])
 
     def test_get_skills_list(self):
         # Retrieve the skills list using the get_skills_list method

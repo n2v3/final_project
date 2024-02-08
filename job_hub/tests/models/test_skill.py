@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from job_hub.models import Skill
@@ -12,9 +13,17 @@ class SkillModelTest(TestCase):
         self.assertIsInstance(skill, Skill)
         self.assertEqual(skill.skill_name, "Analytical thinking")
 
+    def test_save_duplicate_skill(self):
+        # Create a Skill instance with a specific skill name
+        skill = Skill.objects.create(skill_name="Teamwork")
+
+        # Try to create another Skill with the same name
+        with self.assertRaises(ValidationError):
+            Skill.objects.create(skill_name="Teamwork")
+
     def test_skill_str_representation(self):
         # Test the __str__ method of the Skill model
-        skill = Skill.objects.create(skill_name="Analytical thinkin")
+        skill = Skill.objects.create(skill_name="Analytical thinking")
 
         # Check if the __str__ method returns the expected value
-        self.assertEqual(str(skill), "Analytical thinkin")
+        self.assertEqual(str(skill), "Analytical thinking")

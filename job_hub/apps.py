@@ -6,5 +6,4 @@ class JobHubConfig(AppConfig):
     name = "job_hub"
 
     def ready(self):
-        # from job_hub.signals import vacancy_created
-        pass
+        from job_hub.signals import make_user_staff

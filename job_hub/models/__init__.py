@@ -22,4 +22,5 @@ __all__ = [
     "Employee",
     "Candidate",
     "Location",
+    "UserRole"
 ]
