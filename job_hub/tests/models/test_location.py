@@ -30,17 +30,16 @@ class LocationModelTest(TestCase):
 
     def test_company_profile_with_locations(self):
         # Test creating a CompanyProfile instance with multiple locations
+        # Create multiple Location instances
+        location1 = Location.objects.create(location_name="Kyiv")
+        location2 = Location.objects.create(location_name="Kharkiv")
+
+        # Create a CompanyProfile instance and add locations
         company_profile = CompanyProfile.objects.create(
             company_name="Test Company",
             website="http://test.com",
             amount_of_employees=1,
         )
-
-        # Create multiple Location instances
-        location1 = Location.objects.create(location_name="Kyiv")
-        location2 = Location.objects.create(location_name="Kharkiv")
-
-        # Add locations to the company profile
         company_profile.locations.add(location1, location2)
 
         # Check if the company profile has the correct locations
