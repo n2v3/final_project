@@ -5,15 +5,16 @@ from job_hub.models import (
 )
 
 
-class TestModelTest(TestCase):
+class VacancyModelTest(TestCase):
     def setUp(self):
         self.location = Location.objects.create(location_name="Test Location")
         self.category = Category.objects.create(category_name="Test Category")
         self.company_profile = CompanyProfile.objects.create(
             company_name="Test Company",
             amount_of_employees=2,
-            location=self.location
         )
+        self.company_profile.locations.add(self.location)
+
         self.salary = Salary.objects.create(salary_range="Test salary range")
         self.skill = Skill.objects.create(skill_name="Test skill")
         self.vacancy = Vacancy.objects.create(
