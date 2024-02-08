@@ -91,6 +91,7 @@ class CommentAdmin(admin.ModelAdmin):
 class LocationAdmin(admin.ModelAdmin):
     list_display = ("location_name",)
     search_fields = ("location_name",)
+    ordering = ['location_name']
 
 
 @admin.register(Rate)
