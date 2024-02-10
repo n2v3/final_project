@@ -12,14 +12,14 @@ from job_hub.models import (
 class EmployerNode(DjangoObjectType):
     class Meta:
         model = Employer
-        filter_fields = ['employer_first_name', 'employer_last_name', 'email']
+        filter_fields = ['first_name', 'last_name', 'email']
         interfaces = (relay.Node,)
 
 
 class EmployeeNode(DjangoObjectType):
     class Meta:
         model = Employee
-        filter_fields = ['employee_first_name', 'employee_last_name', 'email']
+        filter_fields = ['first_name', 'last_name', 'email']
         interfaces = (relay.Node,)
 
 
@@ -27,8 +27,8 @@ class CandidateNode(DjangoObjectType):
     class Meta:
         model = Candidate
         filter_fields = [
-            'candidate_first_name',
-            'candidate_last_name',
+            'first_name',
+            'last_name',
             'email'
         ]
         interfaces = (relay.Node,)
