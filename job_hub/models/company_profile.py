@@ -19,10 +19,5 @@ class CompanyProfile(models.Model):
         choices=EMPLOYEES_CHOICES
     )
 
-    class Meta:
-        unique_together = (
-            "company_name", "website"
-        )
-
     def __str__(self):
         return self.company_name

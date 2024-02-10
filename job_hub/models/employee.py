@@ -3,8 +3,8 @@ from .company_profile import CompanyProfile
 
 
 class Employee(models.Model):
-    employee_first_name = models.CharField(max_length=255)
-    employee_last_name = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     position = models.CharField(max_length=255)
     company_name = models.ForeignKey(
@@ -15,9 +15,9 @@ class Employee(models.Model):
     skills = models.ManyToManyField("Skill")
 
     def __str__(self):
-        return f"{self.employee_first_name} {self.employee_last_name}"
+        return f"{self.first_name} {self.last_name}"
 
     class Meta:
         unique_together = (
-            "employee_first_name", "employee_last_name", "email"
+            "first_name", "last_name", "email"
         )

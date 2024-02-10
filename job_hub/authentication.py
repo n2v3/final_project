@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import authentication
+import os
 
 
 class MyCustomAuthentication(authentication.BaseAuthentication):
@@ -11,7 +12,8 @@ class MyCustomAuthentication(authentication.BaseAuthentication):
             user = User.objects.get(username="natali")
 
             # Check the condition
-            if get_params.get("password") == "zxcv1234":
+            if (get_params.get("password") ==
+                    os.environ.get("AUTHENTICATION_PASSWORD")):
                 # If condition is met,
                 # return the user and no credentials
                 return user, None

@@ -9,8 +9,8 @@ class CandidateModelTest(TestCase):
 
         # Create a Candidate instance for testing
         self.candidate = Candidate.objects.create(
-            candidate_first_name="Test candidate first name",
-            candidate_last_name="Test candidate last name",
+            first_name="Test candidate first name",
+            last_name="Test candidate last name",
             email="Test Email",
         )
 

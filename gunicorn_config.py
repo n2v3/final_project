@@ -8,7 +8,7 @@ port = os.environ.get("PORT", 8000)
 bind = f"0.0.0.0:{port}"
 
 # Worker processes
-workers = 1
+workers = 4
 worker_class = "sync"
 
 # Threads per worker

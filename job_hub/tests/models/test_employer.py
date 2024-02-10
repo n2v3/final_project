@@ -21,8 +21,8 @@ class EmployerModelTest(TestCase):
 
     def test_employer_creation(self):
         employer = Employer.objects.create(
-            employer_first_name="Test employer first name",
-            employer_last_name="Test employer last name",
+            first_name="Test first name",
+            last_name="Test last name",
             email="Test Email",
             position="Test Position",
             company_name=self.company_profile,
@@ -36,12 +36,12 @@ class EmployerModelTest(TestCase):
 
         # Additional assertions
         self.assertEqual(
-            employer.employer_first_name,
-            "Test employer first name"
+            employer.first_name,
+            "Test first name"
         )
         self.assertEqual(
-            employer.employer_last_name,
-            "Test employer last name"
+            employer.last_name,
+            "Test last name"
         )
         self.assertEqual(employer.email, "Test Email")
         self.assertEqual(employer.position, "Test Position")

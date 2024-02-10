@@ -53,8 +53,8 @@ class EmployerSerializer(ModelSerializer):
     class Meta:
         model = Employer
         fields = (
-            "employer_first_name",
-            "employer_last_name",
+            "first_name",
+            "last_name",
             "email",
             "position",
             "company_name",
@@ -72,7 +72,7 @@ class EmployeeSerializer(ModelSerializer):
         model = Employee
         fields = (
             "employee_first_name",
-            "employee_last_name",
+            "last_name",
             "email",
             "position",
             "company_name",
@@ -90,8 +90,8 @@ class CandidateSerializer(ModelSerializer):
         model = Candidate
         fields = (
             "id",
-            "candidate_first_name",
-            "candidate_last_name",
+            "first_name",
+            "last_name",
             "email",
             "skills",
         )

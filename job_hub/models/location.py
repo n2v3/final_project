@@ -1,4 +1,3 @@
-from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -40,20 +39,8 @@ class Location(models.Model):
         default="ALL REGIONS",
         blank=True,
         null=True,
+        unique=True
     )
-
-    def save(self, *args, **kwargs):
-        # Check if an object with the same location_name already exists
-        existing_location = Location.objects.filter(
-            location_name=self.location_name
-        ).first()
-
-        if existing_location:
-            raise ValidationError(
-                "Location with the same name already exists."
-            )
-
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.get_location_name_display()

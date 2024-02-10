@@ -19,27 +19,27 @@ from .models import (
 
 @admin.register(Candidate)
 class CandidateAdmin(admin.ModelAdmin):
-    list_display = ("candidate_first_name", "candidate_last_name", "email")
-    search_fields = ("candidate_first_name", "candidate_last_name", "email")
+    list_display = ("first_name", "last_name", "email")
+    search_fields = ("first_name", "last_name", "email")
 
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ("employee_first_name", "employee_last_name", "email")
-    search_fields = ("employee_first_name", "employee_last_name", "email")
+    list_display = ("first_name", "last_name", "email")
+    search_fields = ("first_name", "last_name", "email")
 
 
 @admin.register(Employer)
 class EmployerAdmin(admin.ModelAdmin):
     list_display = (
-        "employer_first_name",
-        "employer_last_name",
+        "first_name",
+        "last_name",
         "email",
         "position"
     )
     search_fields = (
-        "employer_first_name",
-        "employer_last_name",
+        "first_name",
+        "last_name",
         "email",
         "position"
     )
@@ -68,7 +68,7 @@ class CompanyProfileAdmin(admin.ModelAdmin):
 @admin.register(Vacancy)
 class VacancyAdmin(admin.ModelAdmin):
     list_display = (
-        "job_title", "description", "salary",
+        "job_title", "description", "requirements", "salary",
         "company_profile", "category"
     )
     search_fields = (

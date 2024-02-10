@@ -11,7 +11,7 @@ class Rate(models.Model):
     comment = models.TextField(blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     vacancy = models.ForeignKey(
-        Vacancy, on_delete=models.CASCADE, default="", related_name="rate"
+        Vacancy, on_delete=models.CASCADE, related_name="rate"
     )
 
     @property
