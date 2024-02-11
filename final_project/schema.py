@@ -1,3 +1,5 @@
+import traceback
+
 import graphene
 from graphene import relay
 from graphene_django import DjangoObjectType
@@ -100,6 +102,7 @@ class VacancyNode(DjangoObjectType):
         interfaces = (relay.Node,)
 
 
+
 class RateNode(DjangoObjectType):
     class Meta:
         model = Rate
@@ -148,5 +151,71 @@ class Query(graphene.ObjectType):
     comment = relay.Node.Field(CommentNode)
     all_comments = DjangoFilterConnectionField(CommentNode)
 
+class VacancyType(DjangoObjectType):
+    class Meta:
+        model = Vacancy
 
-schema = graphene.Schema(query=Query)
+
+class VacancyMutation(graphene.Mutation):
+
+    class Arguments:
+        job_title = graphene.String(required=True)
+        description = graphene.String(required=True)
+        requirements = graphene.String(required=True)
+        salary_id = graphene.ID(required=True)
+        company_profile_id = graphene.ID(required=True)
+        associated_locations_ids = graphene.List(graphene.ID)
+        category_id = graphene.ID(required=True)
+        skills_ids = graphene.List(graphene.ID)
+
+    vacancy = graphene.Field(VacancyType)
+
+    @classmethod
+    def validate(cls, job_title, description, requirements, salary_id,
+                 company_profile_id, associated_locations_ids,
+                 category_id, skills_ids):
+        if not job_title:
+            raise Exception("Job title is required")
+        if not description:
+            raise Exception("Description is required")
+        if not requirements:
+            raise Exception("Requirements are required")
+        if not salary_id:
+            raise Exception("Salary ID is required")
+        if not company_profile_id:
+            raise Exception("Company profile ID is required")
+        if not category_id:
+            raise Exception("Category ID is required")
+
+    @classmethod
+    def mutate(cls, root, info, job_title, description, requirements, salary_id,
+               company_profile_id, associated_locations_ids,
+               category_id, skills_ids):
+        try:
+            print("Running mutation")
+            cls.validate(job_title, description, requirements, salary_id,
+                         company_profile_id, associated_locations_ids,
+                         category_id, skills_ids)
+
+            vacancy = Vacancy(
+                job_title=job_title,
+                description=description,
+                requirements=requirements,
+                salary_id=salary_id,
+                company_profile_id=company_profile_id,
+                category_id=category_id
+            )
+            vacancy.save()
+
+        except Exception as e:
+            traceback.print_exc()
+            return cls(vacancy=None)
+
+        return cls(vacancy=vacancy)
+
+
+class Mutation(graphene.ObjectType):
+    create_vacancy = VacancyMutation.Field()
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
