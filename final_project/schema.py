@@ -102,7 +102,6 @@ class VacancyNode(DjangoObjectType):
         interfaces = (relay.Node,)
 
 
-
 class RateNode(DjangoObjectType):
     class Meta:
         model = Rate
@@ -151,6 +150,7 @@ class Query(graphene.ObjectType):
     comment = relay.Node.Field(CommentNode)
     all_comments = DjangoFilterConnectionField(CommentNode)
 
+
 class VacancyType(DjangoObjectType):
     class Meta:
         model = Vacancy
@@ -186,11 +186,15 @@ class VacancyMutation(graphene.Mutation):
             raise Exception("Company profile ID is required")
         if not category_id:
             raise Exception("Category ID is required")
+        if not associated_locations_ids:
+            raise Exception("Associated locations are required")
+        if not skills_ids:
+            raise Exception("Skills IDs are required")
 
     @classmethod
-    def mutate(cls, root, info, job_title, description, requirements, salary_id,
-               company_profile_id, associated_locations_ids,
-               category_id, skills_ids):
+    def mutate(cls, root, info, job_title, description, requirements,
+               salary_id, company_profile_id,
+               associated_locations_ids, category_id, skills_ids):
         try:
             print("Running mutation")
             cls.validate(job_title, description, requirements, salary_id,
@@ -207,7 +211,11 @@ class VacancyMutation(graphene.Mutation):
             )
             vacancy.save()
 
-        except Exception as e:
+            # Additional fields for locations and skills
+            vacancy.associated_locations.set(associated_locations_ids)
+            vacancy.skills.set(skills_ids)
+
+        except Exception:
             traceback.print_exc()
             return cls(vacancy=None)
 
