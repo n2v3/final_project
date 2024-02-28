@@ -37,7 +37,7 @@ ALLOWED_HOSTS = [
     # "host.docker.internal",
     "0.0.0.0",
     'b648-91-214-85-107.ngrok-free.app'
-]
+] + os.environ.get("ALLOWED_HOSTS", "").split(",")
 
 
 # Application definition
@@ -105,14 +105,19 @@ sqlite_db = {
     "NAME": BASE_DIR / "db.sqlite3",
 }
 
-postgres_db = {
-    "ENGINE": "django.db.backends.postgresql",
-    "NAME": os.environ.get("DB_NAME"),
-    "USER": os.environ.get("DB_USER"),
-    "PASSWORD": os.environ.get("DB_PASSWORD"),
-    "HOST": os.environ.get("DB_HOST"),
-    "PORT": os.environ.get("DB_PORT"),
-}
+if os.environ.get("DATABASE_URL"):
+    import dj_database_url
+
+    postgres_db = dj_database_url.config(conn_max_age=600, ssl_require=True)
+else:
+    postgres_db = {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": os.environ.get("DB_HOST"),
+        "PORT": os.environ.get("DB_PORT"),
+    }
 
 DATABASES = {
     "default": (
