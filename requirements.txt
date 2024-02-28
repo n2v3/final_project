@@ -53,3 +53,4 @@ drf-yasg==1.21.7
 graphene-django==3.2.0
 django-allauth==0.60.1
 graphene==3.3
+dj-database-url==2.1.0
